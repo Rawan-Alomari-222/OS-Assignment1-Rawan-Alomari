@@ -63,7 +63,7 @@ Installed Git and verified it using git --version
 
 ---
 
-### Entry 3 - [March 28, 2026, 12:30 aM]
+### Entry 3 - [March 28, 2026, 1:30 AM]
 **What I did**: Implemented Feature 1 (Priority)
 
 **Details**: 
@@ -75,11 +75,11 @@ Installed Git and verified it using git --version
 
 **Solution**: Modified constructor and tested multiple runs
 
-**Time spent**: 3 hours
+**Time spent**: 1.5hours
 
 ---
 
-### Entry 4 - [March 28, 2026, 3;30 aM]
+### Entry 4 - [March 28, 2026, 2:30 AM]
 **What I did**: Implemented Feature 2 (Context Switch Counter)
 
 **Details**: 
@@ -95,7 +95,7 @@ Installed Git and verified it using git --version
 
 ---
 
-### Entry 5 - [March 28, 2026, 4;30 aM]
+### Entry 5 - [March 28, 2026, 3:30 AM]
 **What I did**: Implemented Feature 3 (Waiting Time)
 
 **Details**: 
@@ -111,7 +111,7 @@ Installed Git and verified it using git --version
 
 ---
 
-### Entry 6 - [March 28, 2026, 7:00 aM]
+### Entry 6 - [March 28, 2026, 7:00 AM]
 **What I did**: Debugging and final testing
 
 **Details**: 
