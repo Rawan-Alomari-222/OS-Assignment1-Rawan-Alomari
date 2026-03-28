@@ -3,7 +3,8 @@ import java.util.Queue;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
-
+import java.util.HashSet;
+import java.util.Set;
 // ANSI Color Codes for enhanced terminal output
 class Colors {
     public static final String RESET = "\u001B[0m";
@@ -255,12 +256,12 @@ public class SchedulerSimulation {
             System.out.println(Colors.BOLD + Colors.MAGENTA + "┌─ Ready Queue " + "─".repeat(65) + Colors.RESET);
             System.out.print(Colors.MAGENTA + "│ " + Colors.RESET + Colors.BRIGHT_WHITE + "[" + Colors.RESET);
             int queueCount = 0;
-            for (Thread thread : processQueue) {
-                Process process = processMap.get(thread);
-                if (queueCount > 0) System.out.print(Colors.WHITE + " → " + Colors.RESET);
-                System.out.print(Colors.BRIGHT_CYAN + process.getName() + Colors.RESET);
-                queueCount++;
-            }
+  for (Thread thread : processQueue) {
+    Process p = processMap.get(thread);
+    if (queueCount > 0) System.out.print(Colors.WHITE + " → " + Colors.RESET);
+    System.out.print(Colors.BRIGHT_CYAN + p.getName() + Colors.RESET);
+    queueCount++;
+}
             if (queueCount == 0) {
                 System.out.print(Colors.YELLOW + "empty" + Colors.RESET);
             }
@@ -313,8 +314,8 @@ public class SchedulerSimulation {
     // Feature 3: Waiting Time Summary
 System.out.println();
 System.out.println("===== Waiting Time Summary =====");
-
-for (Process p : processMap.values()) {
+Set<Process> uniqueProcesses = new HashSet<>(processMap.values());
+for (Process p :  uniqueProcesses) {
     System.out.println(p.getName() + " Waiting Time: " + p.getTotalWaitingTime());
 }
                             }                  
