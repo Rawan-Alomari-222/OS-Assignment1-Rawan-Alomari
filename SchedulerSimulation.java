@@ -30,7 +30,7 @@ class Process implements Runnable {
     private int timeQuantum; // Time slice (time quantum) allowed per CPU access (in milliseconds)
     private int remainingTime; // Time left for the process to finish its execution
       private int priority;    // Feature 1: Process priority
-
+      
     // Constructor to initialize the process with name, burst time, and time quantum
    public Process(String name, int burstTime, int timeQuantum, int priority){//Feature 1
         this.name = name;
@@ -38,8 +38,13 @@ class Process implements Runnable {
         this.timeQuantum = timeQuantum;
         this.remainingTime = burstTime; // Initially, remaining time is equal to the burst time
         this.priority = priority;//Feature 1
+      // Feature 3 initialization
+this.lastEnqueueTime = System.currentTimeMillis();
+this.totalWaitingTime = 0;
     }
-     
+     // Feature 3: Waiting time tracking
+private long lastEnqueueTime;
+private long totalWaitingTime;
     // This method will be called when the thread for this process is started
     @Override
     public void run() {
@@ -142,6 +147,20 @@ class Process implements Runnable {
     public int getPriority() {
     return priority;
 }
+// Feature 3: Mark process enqueue time
+public void markEnqueued() {
+    lastEnqueueTime = System.currentTimeMillis();
+}
+
+// Feature 3: Add waiting time before execution
+public void markStartRunning() {
+    totalWaitingTime += (System.currentTimeMillis() - lastEnqueueTime);
+}
+
+// Feature 3: Get total waiting time
+public long getTotalWaitingTime() {
+    return totalWaitingTime;
+}
 
     // Check if the process has finished (i.e., no remaining time)
     public boolean isFinished() {
@@ -228,7 +247,10 @@ public class SchedulerSimulation {
         while (!processQueue.isEmpty()) {
             // Get the next thread from the queue (FIFO)
             Thread currentThread = processQueue.poll(); // Dequeues the next thread
-            
+            Process process = processMap.get(currentThread);
+
+           // Feature 3
+          process.markStartRunning();
             // Print the current process queue (list of process IDs in the queue)
             System.out.println(Colors.BOLD + Colors.MAGENTA + "┌─ Ready Queue " + "─".repeat(65) + Colors.RESET);
             System.out.print(Colors.MAGENTA + "│ " + Colors.RESET + Colors.BRIGHT_WHITE + "[" + Colors.RESET);
@@ -257,7 +279,6 @@ public class SchedulerSimulation {
             }
             
             // Retrieve the process associated with the thread from the map
-            Process process = processMap.get(currentThread);
             
             // Check if the process is not finished
             if (!process.isFinished()) {
@@ -289,14 +310,23 @@ public class SchedulerSimulation {
                           // Feature 2: Print total number of context switches
                             System.out.println(Colors.BRIGHT_YELLOW + "Total context switches: " 
                              + contextSwitchCount + Colors.RESET);
-    }
+    // Feature 3: Waiting Time Summary
+System.out.println();
+System.out.println("===== Waiting Time Summary =====");
+
+for (Process p : processMap.values()) {
+    System.out.println(p.getName() + " Waiting Time: " + p.getTotalWaitingTime());
+}
+                            }                  
+    
     
     // Method to add a process to the queue and map, while printing a "ready" message
     public static void addProcessToQueue(Process process, Queue<Thread> processQueue, 
                                         Map<Thread, Process> processMap) {
         // Create a new thread to run the process
         Thread thread = new Thread(process);
-        
+        // Feature 3
+          process.markEnqueued();
         // Add the thread to the ready queue
         processQueue.add(thread);
         
